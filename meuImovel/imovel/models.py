@@ -14,8 +14,8 @@ class Address(models.Model):
 
 
 class Property(models.Model):
-    name                = models.CharField('Name', max_length=60)
-    square_meter        = models.IntegerField('square_meter')
+    description         = models.CharField('description', max_length=60)
+    square_meter        = models.PositiveSmallIntegerField('square_meter')
     number_of_bedrooms  = models.PositiveSmallIntegerField('number_of_bedrooms',blank=True)
     number_of_bathrooms = models.PositiveSmallIntegerField('number_of_bathrooms',blank=True)
 
@@ -24,13 +24,13 @@ class Property(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.description
 
 
     class Meta:
         verbose_name        = 'Property'
         verbose_name_plural = 'properties'
-        ordering            = ['name', 'square_meter','number_of_bathrooms']
+        ordering            = ['description', 'square_meter','number_of_bathrooms']
 
 
     def get_absolute_url(self):
