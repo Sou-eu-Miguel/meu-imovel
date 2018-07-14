@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 
-
 class Address(models.Model):
     street      = models.CharField('street', max_length=60)
     number      = models.CharField('number', max_length=10, blank = True)

@@ -15,7 +15,6 @@ class PropertyCreate(CreateView):
     model = Property
     form_class = PropertyForm
     template_name = 'property/form.html'
-    #success_url = reverse_lazy('property-create')
 
 @method_decorator(login_required, name='dispatch')
 class PropertyDetail(DetailView):

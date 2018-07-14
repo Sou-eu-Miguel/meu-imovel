@@ -1,25 +1,32 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from .models import Property
-from _collections import OrderedDict
+
 
 class PropertyForm(forms.ModelForm):
     form_fields = {}
+
     class Meta:
         model = Property
-        exclude = ('updated', 'created')
         fields = ['description', 'square_meter', 'number_of_bedrooms', 'number_of_bathrooms']
+        labels = {
+            'description': _('Descrição'),
+            'square_meter': _('Espaço (M²)'),
+            'number_of_bedrooms': _('N° de Quartos'),
+            'number_of_bathrooms': _('N° de Banheiros'),
+        }
 
-    def __init__(self, *args, **kwargs):
-        super(PropertyForm, self).__init__(*args, **kwargs)
+    def clean(self):
+        cleaned_data = super().clean()
+        number_of_bedrooms = cleaned_data.get("number_of_bedrooms")
+        number_of_bathrooms = cleaned_data.get("number_of_bathrooms")
+        latitude = cleaned_data.get("latitude")
+        longitude = cleaned_data.get("longitude")
 
-        self.form_fields['Descrição'] = self.fields['description']
-        self.form_fields['Espaço (M²)'] = self.fields['square_meter']
-        self.form_fields['N° de Quartos'] = self.fields['number_of_bedrooms']
-        self.form_fields['N° de Banheiros'] = self.fields['number_of_bathrooms']
-
-        self.form_fields['Descrição'].widget.attrs.update({
-            'placeholder': 'ex: Apartamento'})
-
-
-        self.fields = self.form_fields
+        if number_of_bedrooms is None:
+            msg = "Quantidade de quartos inválida"
+            self.add_error('number_of_bedrooms', msg)
+        if number_of_bathrooms is None:
+            msg = "Quantidade de banheiros inválida"
+            self.add_error('number_of_bathrooms', msg)
