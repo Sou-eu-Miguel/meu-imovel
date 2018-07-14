@@ -6,6 +6,8 @@ from .models import Property
 
 class PropertyForm(forms.ModelForm):
     form_fields = {}
+    latitude    = forms.CharField(widget=forms.HiddenInput(), required=True)
+    longitude   = forms.CharField(widget=forms.HiddenInput(), required=True)
 
     class Meta:
         model = Property
@@ -30,3 +32,11 @@ class PropertyForm(forms.ModelForm):
         if number_of_bathrooms is None:
             msg = "Quantidade de banheiros inválida"
             self.add_error('number_of_bathrooms', msg)
+
+        if latitude is None or longitude is None:
+            msg = "Selecione a localização do Imóvel no Mapa"
+            del self._errors['latitude']
+            del self._errors['longitude']
+            self.add_error('latitude', msg)
+
+

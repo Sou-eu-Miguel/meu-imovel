@@ -2,37 +2,44 @@
 {% load static %}
 {% block title %}Meu Imóvel{% endblock %}
 {% block container %}
-    <script src="{% static 'js/modernizr-custom.js' %}"></script>
-    <div>
-        <form action="" id="form-wizard" class="form-horizontal" method="post">{% csrf_token %}
-            <div id="div-form">
-                {% for field in form %}
-                    <div class="control-group">
-                        <label style="color: red;">{{ field.errors }}</label>
-                        <label class="control-label">{{ field.label }}:</label>
-                        <div class="controls">{{ field }}</div>
-                        {% if field.help_text %}
-                            <p class="help">{{ field.help_text|safe }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-            <div id="maps_google">
-                <div id="map" style="width:100%;height:400px">
-                    <a href="#" class="btn btn-large" id="btn_georeferenciamento_%s_%s"> <i class="icon-screenshot"></i>
-                        Mapa</a>
-                    <a href="#" id="btn_fechar_mapa_demanda" class="btn">Fechar</a>
+    <div class="jumbotron">
+        <h2>Cadastrar Imóvel</h2>
+        <div>
+            <form action="" id="form-wizard" class="form-horizontal" method="post">{% csrf_token %}
+                <div id="div-form">
+                    {% for field in form.visible_fields %}
+                        <div class="control-group">
+                            <label style="color: red;">{{ field.errors }}</label>
+                            <label class="control-label">{{ field.label }}:</label>
+                            <div class="controls">{{ field }}</div>
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% for field in form.hidden_fields %}
+                         <label style="color: red;">{{ field.errors }}</label>
+                        <span hidden>{{ field.label }}</span>
+                        {{ field }}
+                    {% endfor %}
                 </div>
-            </div>
-            <div style="padding-left: 70%;" class="form-actions">
-                <input id="back" class="btn btn-primary" type="reset" value="Voltar"
-                       onclick="history.go(-1)"/>
-                <input id="next" class="btn btn-primary" type="submit" value="Salvar"/>
-                <div id="status"></div>
-            </div>
-        </form>
+                <div id="maps_google">
+                    <div id="map" style="width:100%;height:400px">
+                        <a href="#" class="btn btn-large" id="btn_georeferenciamento_%s_%s"> <i
+                                class="icon-screenshot"></i>
+                            Mapa</a>
+                        <a href="#" id="btn_fechar_mapa_demanda" class="btn">Fechar</a>
+                    </div>
+                </div>
+                <div style="padding-left: 70%;" class="form-actions">
+                    <input id="back" class="btn btn-primary" type="reset" value="Voltar"
+                           onclick="history.go(-1)"/>
+                    <input id="next" class="btn btn-primary" type="submit" value="Salvar"/>
+                    <div id="status"></div>
+                </div>
+            </form>
+        </div>
     </div>
-
     <style>
         #div-form {
             padding-left: 30%;
@@ -41,24 +48,57 @@
     </style>
 
     <script>
+        var markers = []
+
         function initMap() {
-            var myLatLng = {lat: -22.909175, lng: -43.202967};
+            var haightAshbury = {lat: -22.909175, lng: -43.202967};
 
-            // Create a map object and specify the DOM element
-            // for display.
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: myLatLng,
-                zoom: 7
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: haightAshbury,
             });
 
-            // Create a marker and set its position.
-            var marker = new google.maps.Marker({
-                map: map,
-                position: myLatLng,
-                title: 'Hello World!'
+            map.addListener('click', function (event) {
+                document.getElementById('id_latitude').value = event.latLng.lat()
+                document.getElementById('id_longitude').value = event.latLng.lng()
+                deleteMarkers()
+                addMarker(event.latLng);
             });
+
+            addMarker(haightAshbury);
         }
 
+        // Adds a marker to the map and push to the array.
+        function addMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            markers.push(marker);
+        }
+
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+        // Shows any markers currently in the array.
+        function showMarkers() {
+            setMapOnAll(map);
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+        }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
             async defer></script>
