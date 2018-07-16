@@ -5,9 +5,11 @@ from ..imovel.models import Property
 
 
 class Advertisement(models.Model):
-    description     = models.CharField('description', max_length=80)
+
+    description     = models.TextField('description')
     price           = models.DecimalField('price', decimal_places= 2, max_digits=10)
-    image           = models.ImageField('image',blank=True)
+    contact_phone   = models.CharField('contact_phone',max_length=12)
+    contact_email   = models.EmailField('contact_email')
 
     # Foreign key
     imovel          = models.ForeignKey(Property, on_delete=False)
@@ -19,7 +21,7 @@ class Advertisement(models.Model):
     class Meta:
         verbose_name        = 'Advertisement'
         verbose_name_plural = 'Advertisements'
-        ordering            = ['description', 'price','image']
+        ordering            = ['description', 'price']
 
 
     def get_absolute_url(self):
