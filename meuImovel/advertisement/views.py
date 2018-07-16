@@ -3,12 +3,13 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 
+from .form import AdvertisementForm
 from .models import Advertisement
 
 
 class AdvertisementCreate(CreateView):
     model = Advertisement
-    fields = ['nome', 'descricao', 'data_referencia']
+    form_class = AdvertisementForm
     template_name = 'advertisement/form.html'
 
 
@@ -19,7 +20,7 @@ class AdvertisementDetail(DetailView):
 
 class AdvertisementUpdate(UpdateView):
     model = Advertisement
-    fields = ['nome', 'descricao', 'data_referencia']
+    fields = ['description', 'price', 'imovel']
     success_url = reverse_lazy('advertisement-list')
     template_name = 'advertisement/form.html'
 
