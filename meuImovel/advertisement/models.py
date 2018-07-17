@@ -12,7 +12,7 @@ class Advertisement(models.Model):
     contact_email   = models.EmailField('contact_email')
 
     # Foreign key
-    imovel          = models.ForeignKey(Property, on_delete=False)
+    imovel          = models.ForeignKey(Property, on_delete=True)
 
     def __str__(self):
         return self.description
