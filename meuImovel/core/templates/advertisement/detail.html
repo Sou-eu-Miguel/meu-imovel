@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Meu Imóvel{% endblock %}
+{% block container %}
+    <div class="jumbotron">
+        <h2>Detalhes do Anúncio</h2>
+        <div>
+            <div class="epl-tab-section epl-section-property-details">
+                <div class="tab-content">
+                    <div>
+                        <div>
+                            <h3>
+                                <span style="padding-left: 70%;color: red">
+                                    <span class="add-on">R$</span> {{ advertisement.price }}
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>
+                                <span>Imagem Ilustrativa</span><br/>
+                                <img src="{{ advertisement.imovel.image.url }}" alt=""/>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="accordion-group accordion-inner">
+                            <span>Detalhes do imóvel</span>
+                            <ul>
+                                <li>{{ advertisement.imovel.description }}</li>
+                                <li>Espaço (M²): {{ advertisement.imovel.square_meter }}</li>
+                                <li>N° de Quartos: {{ advertisement.imovel.number_of_bedrooms }}</li>
+                                <li>N° de Banheiros: {{ advertisement.imovel.number_of_bathrooms }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="accordion-group accordion-inner">
+                            <span>Contato</span>
+                            <ul>
+                                <li>{{ advertisement.contact_phone }}</li>
+                                <li>{{ advertisement.contact_email }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="tab-address accordion-group accordion-inner">
+                            <span>Endereço </span><a href="#property-map">Visualize no Mapa</a>
+                            <p>
+                                <span>{{ advertisement.imovel.address }}</span>
+                                <br/><span>Cep: {{ advertisement.imovel.address.zip_code }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="epl-content epl-clearfix">
+
+                <div class="tab-wrapper">
+
+                    <div>
+                        <div class="tab-address accordion-group accordion-inner">
+                            <span>Descrição</span>
+                            {{ advertisement.description | linebreaks }}
+                        </div>
+                    </div>
+                    <div class="info-maps">
+                        <input type="hidden" id="latitude" value="{{ advertisement.imovel.address.latitude }}"/>
+                        <input type="hidden" id="longitude" value="{{ advertisement.imovel.address.longitude }}"/>
+                    </div>
+                    <div>
+                        <h3 id="property-map"><span>Localização:</span></h3>
+                        <div id="maps_google" style="height: 400px; padding: 0px; margin: 0px;">
+                            <div id="map" style="width:100%;height:400px"></div>
+                            {% include "gmaps/read.html" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock container %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        {% include 'base_css.html' %}
+    </head>
+    <body>
+        {% include 'base_navbar.html' %}
+        {% block menu %}
+        {% endblock menu %}
+        <div class="main">
+            <div class="main-inner">
+                <div class="container">
+                    <div class="row">
+                        {% block container %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="container">
+                    <div class="row-fluid">
+                        <div id="footer" class="span12"> 2018 &copy; <a href="http://github.com/I-am-Miguel"> Welligton Miguel</a>
+                        </div>
+                    </div>
+                    {% include 'base_js.html' %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

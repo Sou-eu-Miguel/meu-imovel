@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Meu Imóvel{% endblock %}
+{% block container %}
+    <div class="jumbotron">
+        <h2>Anunciar Imóvel cadastrado</h2>
+        <div>
+            <form action="" id="form-wizard" class="form-horizontal" method="post">{% csrf_token %}
+                <div id="div-form">
+                    {% for field in form.visible_fields %}
+                        <div class="control-group">
+                            <label style="color: red;">{{ field.errors }}</label>
+                            <label class="control-label">{{ field.label }}:</label>
+                            <div class="controls">{{ field }}</div>
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="padding-left: 70%;" class="form-actions">
+                    <input id="back" class="btn btn-primary" type="reset" value="Voltar"
+                           onclick="history.go(-1)"/>
+                    <input id="next" class="btn btn-primary" type="submit" value="Salvar"/>
+                    <div id="status"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <style>
+        #div-form {
+            padding-left: 30%;
+            padding-top: 20px;
+        }
+    </style>
+{% endblock container %}
