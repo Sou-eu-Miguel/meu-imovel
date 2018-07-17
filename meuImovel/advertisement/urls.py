@@ -24,4 +24,5 @@ urlpatterns = [
     path('<int:pk>/delete',     views.AdvertisementDelete.as_view(),        name='advertisement-delete'),
     path('list',                views.AdvertisementList.as_view(),          name='advertisement-list'),
     path('',                    views.AdvertisementList.as_view(),          name='advertisement-list'),
+    path('advertisement-list-upcoming',        views.listUpcoming,          name='advertisement-list-upcoming'),
 ]

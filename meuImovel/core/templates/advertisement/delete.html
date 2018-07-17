@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Meu Imóvel{% endblock %}
+{% block container %}
+    <div id="content">
+        <div id="content-header">
+            <h1>Remoção de Anúncio</h1>
+            <form method="post">{% csrf_token %}
+                <p>Tem certeza de que deseja excluir este Anúncio?</p>
+                <input class="btn btn-danger" type="submit" value="Confirmar"/>
+            </form>
+        </div>
+    </div>
+
+{% endblock container %}

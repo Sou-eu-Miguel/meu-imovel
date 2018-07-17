@@ -5,6 +5,26 @@
     <div style="padding-left: 5%">
         <h1> Lista de Anúncios</h1><br/>
     </div>
+    <div style="text-align: center;">
+        {% if form.non_field_errors %}
+            <ul class='form-errors'>
+                {% for error in form.non_field_errors %}
+                    <span class="label label-important">
+                            {{ error | linebreaksbr }}
+                        </span>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <div style="padding-left: 70%">
+        <form action="{% url 'advertisement-list-upcoming' %}" method="post">{% csrf_token %}
+            <div id="busca">
+                <h4>Busque o imóvel mais próximo:</h4>
+                <input id="endereco_cliente" class="controls" name="endereco_cliente">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </form>
+    </div>
     {% for advertisement in object_list %}
         <div class="wrapper">
             <div class="box header">Preço: <span class="add-on">R$</span>{{ advertisement.price }}</div>
@@ -15,9 +35,16 @@
             </div>
             <div class="box sidebar2">{{ advertisement.imovel.address }}</div>
             <div class="box content"><span>{{ advertisement.description | linebreaks }}</span></div>
-            <div class="box footer">Contato: {{ advertisement.contact_email }} | {{ advertisement.contact_phone }}</div>
+            <div class="box footer">Contato: {{ advertisement.contact_email }} | {{ advertisement.contact_phone }}
+                {% if user.is_authenticated %}
+                 <a href="{% url 'advertisement-delete' advertisement.pk %}">
+                     <span style="padding-left:90% ; color: black" class="icon-trash">Remover</span></a>
+                {% endif %}
+            </div>
         </div>
         <br/>
+        {% empty %}
+            <h3 style="text-align: center;">Não há Anúncios disponíveis</h3>
     {% endfor %}
     <style>
 
