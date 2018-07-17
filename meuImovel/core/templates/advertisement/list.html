@@ -2,7 +2,94 @@
 {% load static %}
 {% block title %}Meu Imóvel{% endblock %}
 {% block container %}
-    <div style="text-align:center;">
-        <h1> Em Construção </h1>
+    <div style="padding-left: 5%">
+        <h1> Lista de Anúncios</h1><br/>
     </div>
+    {% for advertisement in object_list %}
+        <div class="wrapper">
+            <div class="box header">Preço: <span class="add-on">R$</span>{{ advertisement.price }}</div>
+            <div class="box sidebar">
+                <a href="{% url 'advertisement-read' advertisement.pk %}" title="Visualizar Detalhes">
+                    <img src="{{ advertisement.imovel.image.url }}">
+                </a>
+            </div>
+            <div class="box sidebar2">{{ advertisement.imovel.address }}</div>
+            <div class="box content"><span>{{ advertisement.description | linebreaks }}</span></div>
+            <div class="box footer">Contato: {{ advertisement.contact_email }} | {{ advertisement.contact_phone }}</div>
+        </div>
+        <br/>
+    {% endfor %}
+    <style>
+
+        .sidebar {
+            grid-area: sidebar;
+        }
+
+        .sidebar2 {
+            grid-area: sidebar2;
+        }
+
+        .content {
+            grid-area: content;
+        }
+
+        .header {
+            grid-area: header;
+        }
+
+        .footer {
+            grid-area: footer;
+        }
+
+        .wrapper {
+            background-color: #fff;
+            color: #444;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-gap: 1em;
+            grid-template-areas: "header" "sidebar" "content" "sidebar2" "footer"
+        }
+
+        @media only screen and (min-width: 500px) {
+            .wrapper {
+
+                grid-template-columns: 20% auto;
+                grid-template-areas: "header   header" "sidebar  content" "sidebar2 sidebar2" "footer   footer";
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .wrapper {
+                grid-gap: 20px;
+                grid-template-columns: 120px auto 120px;
+                grid-template-areas: "header  header  header" "sidebar content sidebar2" "footer  footer  footer";
+                padding-left: 10%;
+            }
+        }
+
+        .header,
+        .footer {
+            background-color: #999;
+        }
+
+        .sidebar img {
+            max-width: 200px;
+            max-height: 150px;
+            width: auto;
+            height: auto;
+        }
+
+        .content p {
+            margin-left: 30%;
+            max-height: 150px;
+        }
+
+        .sidebar2 {
+            margin-right: 10%;
+            width: auto;
+            height: auto;
+        }
+    </style>
 {% endblock container %}
