@@ -1,0 +1,26 @@
+<script>
+    function initMap() {
+        var campo_latitude = document.getElementById('latitude');
+        var campo_longitude = document.getElementById('longitude');
+        var latitude = parseFloat(campo_latitude.value.toString().replace(",", "."));
+        var longitude = parseFloat(campo_longitude.value.toString().replace(",", "."));
+
+        var haightAshbury = {lat: latitude, lng: longitude};
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: haightAshbury,
+        });
+
+        addMarker(haightAshbury);
+    }
+
+    // Adds a marker to the map and push to the array.
+    function addMarker(location) {
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+</script>
+{% include "gmaps/key.html" %}

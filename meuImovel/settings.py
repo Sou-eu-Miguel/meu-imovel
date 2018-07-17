@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -38,7 +39,8 @@ DEFAULT_APPS = [
 ]
 LOCAL_APPS = [
     'meuImovel.core',
-    'meuImovel.imovel'
+    'meuImovel.imovel',
+    'meuImovel.advertisement'
 ]
 
 INSTALLED_APPS = LOCAL_APPS + DEFAULT_APPS
@@ -117,4 +119,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'staticMedia', 'media')
+MEDIA_URL = '/media/'
+
+
+# Auth
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/advertisement/'
+LOGOUT_URL = 'login'
+
+GOOGLE_KEY = 'AIzaSyCSZtX_qV_ltqQ0azDtbdlpA9-fxmNW9Cs'
