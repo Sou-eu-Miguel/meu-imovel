@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import Property, Address
 from ..core.service.gmaps.gmaps_utilities import Gmaps
 from ..settings import MEDIA_ROOT
-
+import os
 
 class PropertyForm(forms.ModelForm):
 
@@ -66,6 +66,10 @@ class PropertyForm(forms.ModelForm):
 
 
 def handle_uploaded_file(f):
-    with open(MEDIA_ROOT+'/images/property/'+f._name, 'wb+') as destination:
+    directory = MEDIA_ROOT+'/images/property/'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    with open(directory+f._name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)

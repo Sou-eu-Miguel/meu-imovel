@@ -124,3 +124,11 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'staticMedia', 'media')
 MEDIA_URL = '/media/'
+
+
+# Auth
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/advertisement/'
+LOGOUT_URL = 'login'
+
+GOOGLE_KEY = 'AIzaSyCSZtX_qV_ltqQ0azDtbdlpA9-fxmNW9Cs'
